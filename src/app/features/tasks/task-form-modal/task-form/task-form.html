@@ -1,0 +1,64 @@
+<form nz-form [formGroup]="form" nzLayout="vertical">
+      <nz-form-item>
+        <nz-form-label nzRequired>Title</nz-form-label>
+        <nz-form-control nzErrorTip="Title is required">
+          <input nz-input formControlName="title" placeholder="What needs to be done?" />
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label>Description</nz-form-label>
+        <nz-form-control>
+          <textarea nz-input formControlName="description" rows="3"
+            placeholder="Optional details"></textarea>
+        </nz-form-control>
+      </nz-form-item>
+
+      <div nz-row [nzGutter]="16">
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired>Status</nz-form-label>
+            <nz-form-control>
+              <nz-select formControlName="status">
+                <nz-option nzLabel="To Do" nzValue="todo"></nz-option>
+                <nz-option nzLabel="In Progress" nzValue="in-progress"></nz-option>
+                <nz-option nzLabel="Done" nzValue="done"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired>Priority</nz-form-label>
+            <nz-form-control>
+              <nz-select formControlName="priority">
+                <nz-option nzLabel="Low" nzValue="low"></nz-option>
+                <nz-option nzLabel="Medium" nzValue="medium"></nz-option>
+                <nz-option nzLabel="High" nzValue="high"></nz-option>
+              </nz-select>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+
+      <div nz-row [nzGutter]="16">
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label nzRequired>Category</nz-form-label>
+            <nz-form-control>
+              <input nz-input formControlName="category" placeholder="e.g., Learning" />
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+
+        <div nz-col nzSpan="12">
+          <nz-form-item>
+            <nz-form-label>Due Date</nz-form-label>
+            <nz-form-control>
+              <nz-date-picker formControlName="dueDate" style="width: 100%"></nz-date-picker>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </form>
