@@ -1,1 +1,112 @@
-<p>tasks-page works!</p>
+<div class="page-header">
+  <h2>Tasks</h2>
+  <button nz-button nzType="primary" (click)="onAdd()">
+    <span nz-icon nzType="plus"></span>
+    Add Task
+  </button>
+</div>
+
+@if (filteredTasks().length === 0) {
+  <nz-empty nzNotFoundContent="No tasks yet — click 'Add Task' to start">
+  </nz-empty>
+} @else {
+  
+  <nz-card class="filter-bar">
+  <div nz-row [nzGutter]="16">
+    <div nz-col nzSpan="8">
+      <nz-input-group [nzPrefix]="prefixIcon">
+        <input nz-input placeholder="Search by title or description"
+               [ngModel]="searchQuery()"
+               (ngModelChange)="searchQuery.set($event)" />
+      </nz-input-group>
+      <ng-template #prefixIcon><span nz-icon nzType="search"></span></ng-template>
+    </div>
+
+    <div nz-col nzSpan="5">
+      <nz-select nzMode="multiple" nzPlaceHolder="Status"
+                 [ngModel]="statusFilter()"
+                 (ngModelChange)="statusFilter.set($event)" style="width: 100%">
+        <nz-option nzLabel="To Do" nzValue="todo"></nz-option>
+        <nz-option nzLabel="In Progress" nzValue="in-progress"></nz-option>
+        <nz-option nzLabel="Done" nzValue="done"></nz-option>
+      </nz-select>
+    </div>
+
+    <div nz-col nzSpan="5">
+      <nz-select nzMode="multiple" nzPlaceHolder="Priority"
+                 [ngModel]="priorityFilter()"
+                 (ngModelChange)="priorityFilter.set($event)" style="width: 100%">
+        <nz-option nzLabel="Low" nzValue="low"></nz-option>
+        <nz-option nzLabel="Medium" nzValue="medium"></nz-option>
+        <nz-option nzLabel="High" nzValue="high"></nz-option>
+      </nz-select>
+    </div>
+
+    <div nz-col nzSpan="4">
+      <nz-select nzMode="multiple" nzPlaceHolder="Category"
+                 [ngModel]="categoryFilter()"
+                 (ngModelChange)="categoryFilter.set($event)" style="width: 100%">
+        @for (cat of allCategories(); track cat) {
+          <nz-option [nzLabel]="cat" [nzValue]="cat"></nz-option>
+        }
+      </nz-select>
+    </div>
+
+    <div nz-col nzSpan="2">
+      <button nz-button (click)="clearFilters()">Clear</button>
+    </div>
+  </div>
+</nz-card>
+
+  <nz-table #table [nzData]="filteredTasks()" [nzPageSize]="10" nzShowSizeChanger>
+    <thead>
+      <tr>
+        <th [nzSortFn]="sortByTitle">Title</th>
+        <th nzWidth="120px">Status</th>
+        <th nzWidth="100px">Priority</th>
+        <th nzWidth="140px">Category</th>
+        <th nzWidth="140px" [nzSortFn]="sortByDueDate">
+          Due
+        </th>
+        <th nzWidth="140px">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (task of table.data; track task.id) {
+        <tr>
+          <td>
+            <strong>{{ task.title }}</strong>
+            @if (task.description) {
+              <div class="task-desc">{{ task.description }}</div>
+            }
+          </td>
+          <td>
+            <nz-tag [nzColor]="statusColor(task.status)">
+              {{ task.status }}
+            </nz-tag>
+          </td>
+          <td>
+            <nz-tag [nzColor]="priorityColor(task.priority)">
+              {{ task.priority }}
+            </nz-tag>
+          </td>
+          <td>{{ task.category }}</td>
+          <td>{{ task.dueDate || '—' }}</td>
+          <td>
+            <a (click)="onEdit(task)">Edit</a>
+            <nz-divider nzType="vertical"></nz-divider>
+            <a class="danger"
+                nz-popconfirm
+                nzPopconfirmTitle="Delete this task?"
+                nzPopconfirmPlacement="left"
+                nzOkText="Delete"
+                nzOkDanger
+                (nzOnConfirm)="onDelete(task)">
+                Delete
+</a>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </nz-table>
+}
