@@ -1,0 +1,89 @@
+<form nz-form [formGroup]="form" nzLayout="vertical">
+  <nz-form-item>
+    <nz-form-label nzRequired>Title</nz-form-label>
+    <nz-form-control nzErrorTip="Title is required">
+      <input nz-input formControlName="title" placeholder="What do you want to achieve?" />
+    </nz-form-control>
+  </nz-form-item>
+
+  <nz-form-item>
+    <nz-form-label>Description</nz-form-label>
+    <nz-form-control>
+      <textarea nz-input formControlName="description" rows="3" placeholder="Optional details"></textarea>
+    </nz-form-control>
+  </nz-form-item>
+
+  <div nz-row [nzGutter]="16">
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>Category</nz-form-label>
+        <nz-form-control nzErrorTip="Category is required">
+          <input nz-input formControlName="category" placeholder="e.g., Health, Career" />
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label>Deadline</nz-form-label>
+        <nz-form-control>
+          <nz-date-picker formControlName="deadline" style="width: 100%"></nz-date-picker>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+        <nz-form-item>
+        <nz-form-label>Progress</nz-form-label>
+        <nz-form-control>
+          <nz-slider
+            formControlName="progress"
+            [nzMarks]="progressMarks"
+            [nzMin]="0"
+            [nzMax]="100"
+            [nzStep]="5">
+          </nz-slider>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-label>Rating (how important is this?)</nz-form-label>
+        <nz-form-control>
+          <nz-rate formControlName="rating" nzAllowHalf></nz-rate>
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control>
+          <label nz-checkbox formControlName="completed">Mark as completed</label>
+        </nz-form-control>
+      </nz-form-item>
+
+  <div nz-row [nzGutter]="16">
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label nzRequired>Progress (%)</nz-form-label>
+        <nz-form-control>
+          <nz-input-number formControlName="progress" [nzMin]="0" [nzMax]="100"
+                           style="width: 100%"></nz-input-number>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+
+    <div nz-col nzSpan="12">
+      <nz-form-item>
+        <nz-form-label>Rating</nz-form-label>
+        <nz-form-control>
+          <nz-rate formControlName="rating"></nz-rate>
+        </nz-form-control>
+      </nz-form-item>
+    </div>
+  </div>
+
+  <nz-form-item>
+    <nz-form-label>Completed</nz-form-label>
+    <nz-form-control>
+      <nz-switch formControlName="completed"></nz-switch>
+    </nz-form-control>
+  </nz-form-item>
+</form>
