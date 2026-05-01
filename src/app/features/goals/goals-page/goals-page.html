@@ -1,1 +1,76 @@
-<p>goals-page works!</p>
+<div class="page-header">
+  <h2>Goals</h2>
+  <button nz-button nzType="primary" (click)="onAdd()">
+    <span nz-icon nzType="plus"></span>
+    New Goal
+  </button>
+</div>
+
+<!-- Top stats bar -->
+<div nz-row [nzGutter]="16" class="stats-row">
+  <div nz-col nzSpan="6">
+    <nz-card>
+      <nz-statistic nzTitle="Active Goals" [nzValue]="activeCount()"></nz-statistic>
+    </nz-card>
+  </div>
+  <div nz-col nzSpan="6">
+    <nz-card>
+      <nz-statistic nzTitle="Completed" [nzValue]="completedCount()" [nzValueStyle]="{ color: '#52c41a' }"></nz-statistic>
+    </nz-card>
+  </div>
+  <div nz-col nzSpan="6">
+    <nz-card>
+      <nz-statistic nzTitle="Avg. Progress" [nzValue]="avgProgress()" nzSuffix="%"></nz-statistic>
+    </nz-card>
+  </div>
+  <div nz-col nzSpan="6">
+    <nz-card>
+      <nz-statistic nzTitle="Avg. Rating" [nzValue]="avgRating()" nzSuffix="/ 5"></nz-statistic>
+    </nz-card>
+  </div>
+</div>
+
+<!-- Goal cards -->
+@if (goals().length === 0) {
+  <nz-empty nzNotFoundContent="No goals yet"></nz-empty>
+} @else {
+  <div nz-row [nzGutter]="[16, 16]">
+    @for (goal of goals(); track goal.id) {
+      <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="6">
+        <nz-card [nzActions]="[editAction, deleteAction]">
+          <ng-template #starBadge>⭐</ng-template>
+
+<nz-badge [nzCount]="goal.rating >= 4 ? starBadge : undefined" [nzStyle]="{ background: 'transparent' }">
+  <nz-card-meta [nzTitle]="goal.title" [nzDescription]="goal.category"></nz-card-meta>
+</nz-badge>
+
+          <div class="goal-progress">
+            <nz-progress [nzPercent]="goal.progress"
+                         [nzStatus]="goal.completed ? 'success' : 'active'">
+            </nz-progress>
+          </div>
+
+          @if (goal.deadline) {
+            <div class="goal-meta">
+              <span nz-icon nzType="calendar"></span>
+              {{ goal.deadline }}
+            </div>
+          }
+
+          <div class="goal-rating">
+            <nz-rate [ngModel]="goal.rating" nzDisabled></nz-rate>
+          </div>
+
+          <ng-template #editAction>
+            <span nz-icon nzType="edit" (click)="onEdit(goal)"></span>
+          </ng-template>
+          <ng-template #deleteAction>
+            <span nz-icon nzType="delete"
+                  nz-popconfirm nzPopconfirmTitle="Delete this goal?"
+                  (nzOnConfirm)="onDelete(goal)"></span>
+          </ng-template>
+        </nz-card>
+      </div>
+    }
+  </div>
+}
