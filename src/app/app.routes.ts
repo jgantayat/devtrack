@@ -12,6 +12,11 @@ export const routes: Routes = [
       { path: 'goals', loadComponent: () => import('./features/goals/goals-page/goals-page').then(m => m.GoalsPage) },
       { path: 'log', loadComponent: () => import('./features/log/log-page/log-page').then(m => m.LogPage) },
       { path: 'settings', loadComponent: () => import('./features/settings/settings-page/settings-page').then(m => m.SettingsPage) },
+        {
+        path: '**',
+        loadComponent: () => import('../app/shared/components/not-found/not-found/not-found')
+          .then(m => m.NotFound)
+      }
     ]
   }
 ];

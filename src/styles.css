@@ -1,1 +1,156 @@
 /* You can add global styles to this file, and also import other style files */
+/* ── Base tokens (light theme — default) ─────────────────────── */
+:root,
+[data-theme="light"] {
+  --primary-color:       #5b8def;
+  --primary-hover:       #4a7de0;
+  --success-color:       #52c41a;
+  --warning-color:       #faad14;
+  --error-color:         #ff4d4f;
+
+  --bg-page:             #f0f2f5;
+  --bg-surface:          #ffffff;
+  --bg-sider:            #001529;
+
+  --text-primary:        rgba(0, 0, 0, 0.85);
+  --text-secondary:      rgba(0, 0, 0, 0.45);
+
+  --border-radius:       6px;
+  --font-size-base:      14px;
+
+  --header-bg:           #ffffff;
+  --header-shadow:       0 1px 4px rgba(0, 21, 41, 0.08);
+}
+
+/* ── Dark theme ───────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --primary-color:       #5b8def;
+  --primary-hover:       #4a7de0;
+  --success-color:       #52c41a;
+  --warning-color:       #faad14;
+  --error-color:         #ff4d4f;
+
+  --bg-page:             #141414;
+  --bg-surface:          #1f1f1f;
+  --bg-sider:            #000000;
+
+  --text-primary:        rgba(255, 255, 255, 0.85);
+  --text-secondary:      rgba(255, 255, 255, 0.45);
+
+  --header-bg:           #1f1f1f;
+  --header-shadow:       0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Compact theme — tighter spacing, smaller font ───────────── */
+[data-theme="compact"] {
+  --font-size-base:      12px;
+  --border-radius:       4px;
+  --bg-page:             #f0f2f5;
+  --bg-surface:          #ffffff;
+  --bg-sider:            #001529;
+  --text-primary:        rgba(0, 0, 0, 0.85);
+  --text-secondary:      rgba(0, 0, 0, 0.45);
+  --header-bg:           #ffffff;
+  --header-shadow:       0 1px 4px rgba(0, 21, 41, 0.08);
+}
+
+/* ── Global resets ────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+               'Helvetica Neue', Arial, sans-serif;
+  font-size: var(--font-size-base);
+  color: var(--text-primary);
+  background-color: var(--bg-page);
+}
+
+/* ── Apply surface and header tokens to NG-ZORRO layout ──────── */
+.app-content {
+  background: var(--bg-surface) !important;
+}
+
+.app-header {
+  background: var(--header-bg) !important;
+  box-shadow: var(--header-shadow);
+}
+
+/* ── Dark theme overrides for NG-ZORRO components ────────────── */
+[data-theme="dark"] .ant-card {
+  background: var(--bg-surface);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .ant-table {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .ant-table-thead > tr > th {
+  background: #2a2a2a;
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .ant-table-tbody > tr > td {
+  border-color: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="dark"] .ant-table-tbody > tr:hover > td {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+[data-theme="dark"] .ant-modal-content,
+[data-theme="dark"] .ant-modal-header {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .ant-drawer-content,
+[data-theme="dark"] .ant-drawer-header {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .ant-input,
+[data-theme="dark"] .ant-select-selector,
+[data-theme="dark"] .ant-picker {
+  background: #2a2a2a !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+  color: var(--text-primary) !important;
+}
+
+/* ── Compact theme overrides ─────────────────────────────────── */
+[data-theme="compact"] .ant-card-body {
+  padding: 12px;
+}
+
+[data-theme="compact"] .ant-table-tbody > tr > td,
+[data-theme="compact"] .ant-table-thead > tr > th {
+  padding: 8px 12px;
+}
+
+[data-theme="compact"] .ant-btn {
+  height: 28px;
+  padding: 0 10px;
+  font-size: 12px;
+}
+
+/* ── Shared page layout helpers used by every page ───────────── */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.page-header h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+}

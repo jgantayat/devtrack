@@ -1,1 +1,22 @@
-<p>log-page works!</p>
+<div class="page-header">
+  <h2>Daily Log</h2>
+</div>
+
+<nz-card>
+  <nz-calendar [(ngModel)]="selectedDate" (nzSelectChange)="onDateSelect($event)">
+    <ng-container *nzDateCell="let date">
+      @let entry = entryFor(date);
+      @if (entry) {
+        <div class="cal-entry">
+          <span nz-icon nzType="check-circle" nzTheme="twotone"
+                [nzTwotoneColor]="'#52c41a'"></span>
+          @if (entry.tags.length) {
+            <nz-tag nzColor="blue">{{ entry.tags.length }} tag{{ entry.tags.length > 1 ? 's' : '' }}</nz-tag>
+          }
+        </div>
+      }
+    </ng-container>
+  </nz-calendar>
+</nz-card>
+
+<!-- Right panel for entry detail will be added Day 11 (drawer) -->

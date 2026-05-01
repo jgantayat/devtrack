@@ -30,8 +30,87 @@
   </div>
 </div>
 
+
+@if (loading()) {
+  <div nz-row [nzGutter]="[16, 16]">
+    @for (n of [1,2,3,4]; track n) {
+      <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="6">
+        <nz-card>
+          <nz-skeleton [nzActive]="true" [nzAvatar]="false"
+                       [nzParagraph]="{ rows: 3 }">
+          </nz-skeleton>
+        </nz-card>
+      </div>
+    }
+  </div>
+} @else if (goals().length === 0) {
+  <nz-empty nzNotFoundContent="No goals yet"></nz-empty>
+} @else {
+  <div nz-row [nzGutter]="[16, 16]">
+    @for (goal of goals(); track goal.id) {
+      <div nz-col [nzXs]="24" [nzSm]="12" [nzMd]="8" [nzLg]="6">
+        <nz-card [nzActions]="[completeAction, editAction, deleteAction]">
+
+          <nz-badge [nzDot]="goal.rating >= 4" [nzColor]="'#faad14'">
+            <nz-card-meta [nzTitle]="goal.title"
+                          [nzDescription]="goal.category">
+            </nz-card-meta>
+          </nz-badge>
+
+          <div class="goal-progress">
+            <nz-progress [nzPercent]="goal.progress"
+                         [nzStatus]="goal.completed ? 'success' : 'active'">
+            </nz-progress>
+          </div>
+
+          @if (goal.deadline) {
+            <div class="goal-meta">
+              <span nz-icon nzType="calendar"></span>
+              {{ goal.deadline }}
+            </div>
+          }
+
+          <div class="goal-rating">
+            <nz-rate [ngModel]="goal.rating" nzDisabled></nz-rate>
+          </div>
+
+          <!-- NEW: complete action -->
+          <ng-template #completeAction>
+            @if (!goal.completed) {
+              <span nz-icon nzType="check-circle"
+                    nzTheme="outline"
+                    nz-popconfirm
+                    nzPopconfirmTitle="Mark this goal as complete?"
+                    (nzOnConfirm)="onMarkComplete(goal)">
+              </span>
+            } @else {
+              <span nz-icon nzType="check-circle"
+                    nzTheme="twotone"
+                    [nzTwotoneColor]="'#52c41a'">
+              </span>
+            }
+          </ng-template>
+
+          <ng-template #editAction>
+            <span nz-icon nzType="edit" (click)="onEdit(goal)"></span>
+          </ng-template>
+
+          <ng-template #deleteAction>
+            <span nz-icon nzType="delete"
+                  nz-popconfirm
+                  nzPopconfirmTitle="Delete this goal?"
+                  (nzOnConfirm)="onDelete(goal)">
+            </span>
+          </ng-template>
+
+        </nz-card>
+      </div>
+    }
+  </div>
+}
+
 <!-- Goal cards -->
-@if (goals().length === 0) {
+<!-- @if (goals().length === 0) {
   <nz-empty nzNotFoundContent="No goals yet"></nz-empty>
 } @else {
   <div nz-row [nzGutter]="[16, 16]">
@@ -73,4 +152,4 @@
       </div>
     }
   </div>
-}
+} -->

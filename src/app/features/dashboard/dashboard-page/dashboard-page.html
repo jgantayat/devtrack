@@ -1,1 +1,130 @@
-<p>dashboard-page works!</p>
+<div class="page-header">
+  <h2>Welcome back, Jay 👋</h2>
+</div>
+
+<!-- KPI strip -->
+<div nz-row [nzGutter]="16" class="kpi-row">
+  <div nz-col nzSpan="6">
+    <nz-card>
+      <nz-statistic [nzValue]="openTasks()" nzTitle="Open Tasks"
+                    [nzPrefix]="taskIcon" [nzValueStyle]="{ color: '#1890ff' }"></nz-statistic>
+      <ng-template #taskIcon><span nz-icon nzType="check-square"></span></ng-template>
+    </nz-card>
+  </div>
+  <div nz-col nzSpan="6">
+    <nz-card>
+      <nz-statistic [nzValue]="highPriority()" nzTitle="High Priority"
+                    [nzValueStyle]="{ color: '#cf1322' }"></nz-statistic>
+    </nz-card>
+  </div>
+  <div nz-col nzSpan="6">
+    <nz-card>
+      <nz-statistic [nzValue]="activeGoals()" nzTitle="Active Goals"
+                    [nzValueStyle]="{ color: '#faad14' }"></nz-statistic>
+    </nz-card>
+  </div>
+  <div nz-col nzSpan="6">
+    <nz-card>
+      <nz-statistic [nzValue]="daysLogged()" nzTitle="Days Logged"
+                    [nzValueStyle]="{ color: '#52c41a' }"></nz-statistic>
+    </nz-card>
+  </div>
+</div>
+
+<div nz-row [nzGutter]="16" class="main-row">
+  <div nz-col [nzMd]="14">
+    @if (loading()) {
+      <nz-card>
+        <nz-skeleton [nzActive]="true" [nzAvatar]="false"
+                     [nzParagraph]="{ rows: 5 }">
+        </nz-skeleton>
+      </nz-card>
+    } @else {
+      <nz-card nzTitle="Recent Tasks" [nzExtra]="taskLink">
+        <nz-list nzItemLayout="horizontal">
+          @for (task of recentTasks(); track task.id) {
+            <nz-list-item>
+              <nz-list-item-meta
+                [nzTitle]="task.title"
+                [nzDescription]="task.category + ' • ' + task.status">
+              </nz-list-item-meta>
+              <ul nz-list-item-actions>
+                <nz-list-item-action>
+                  <nz-tag [nzColor]="task.priority === 'high' ? 'red' : 'blue'">
+                    {{ task.priority }}
+                  </nz-tag>
+                </nz-list-item-action>
+              </ul>
+            </nz-list-item>
+          }
+        </nz-list>
+        <ng-template #taskLink>
+          <a routerLink="/tasks">View all →</a>
+        </ng-template>
+      </nz-card>
+    }
+  </div>
+
+  <div nz-col [nzMd]="10">
+    @if (loading()) {
+      <nz-card>
+        <nz-skeleton [nzActive]="true" [nzAvatar]="false"
+                     [nzParagraph]="{ rows: 4 }">
+        </nz-skeleton>
+      </nz-card>
+    } @else {
+      <nz-card nzTitle="Top Goals" [nzExtra]="goalLink">
+        @for (goal of topGoals(); track goal.id) {
+          <div class="dash-goal">
+            <div class="dash-goal-title">{{ goal.title }}</div>
+            <nz-progress [nzPercent]="goal.progress" nzSize="small"></nz-progress>
+          </div>
+        }
+        <ng-template #goalLink>
+          <a routerLink="/goals">View all →</a>
+        </ng-template>
+      </nz-card>
+    }
+  </div>
+</div>
+
+<!-- Two-column main area -->
+<!-- <div nz-row [nzGutter]="16" class="main-row">
+  <div nz-col [nzMd]="14">
+    <nz-card nzTitle="Recent Tasks" [nzExtra]="taskLink">
+      <nz-list nzItemLayout="horizontal">
+        @for (task of recentTasks(); track task.id) {
+          <nz-list-item>
+            <nz-list-item-meta [nzTitle]="task.title"
+                               [nzDescription]="task.category + ' • ' + task.status">
+            </nz-list-item-meta>
+            <ul nz-list-item-actions>
+              <nz-list-item-action>
+                <nz-tag [nzColor]="task.priority === 'high' ? 'red' : 'blue'">
+                  {{ task.priority }}
+                </nz-tag>
+              </nz-list-item-action>
+            </ul>
+          </nz-list-item>
+        }
+      </nz-list>
+      <ng-template #taskLink>
+        <a routerLink="/tasks">View all →</a>
+      </ng-template>
+    </nz-card>
+  </div>
+
+  <div nz-col [nzMd]="10">
+    <nz-card nzTitle="Top Goals" [nzExtra]="goalLink">
+      @for (goal of topGoals(); track goal.id) {
+        <div class="dash-goal">
+          <div class="dash-goal-title">{{ goal.title }}</div>
+          <nz-progress [nzPercent]="goal.progress" nzSize="small"></nz-progress>
+        </div>
+      }
+      <ng-template #goalLink>
+        <a routerLink="/goals">View all →</a>
+      </ng-template>
+    </nz-card>
+  </div>
+</div> -->

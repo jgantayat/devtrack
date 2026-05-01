@@ -58,6 +58,74 @@
   </div>
 </nz-card>
 
+<nz-spin [nzSpinning]="loading()" nzTip="Loading tasks...">
+
+  @if (filteredTasks().length === 0 && !loading()) {
+    <nz-empty nzNotFoundContent="No tasks match your filters"></nz-empty>
+  } @else {
+    <nz-table #table [nzData]="filteredTasks()" [nzPageSize]="10" nzShowSizeChanger>
+      <thead>
+        <tr>
+          <th [nzSortFn]="titleSortFn">Title</th>
+          <th nzWidth="120px">Status</th>
+          <th nzWidth="100px">Priority</th>
+          <th nzWidth="140px">Category</th>
+          <th nzWidth="140px">Due</th>
+          <th nzWidth="160px">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (task of table.data; track task.id) {
+          <tr>
+            <td>
+              <strong>{{ task.title }}</strong>
+              <!-- CHANGED: nzEllipsis pipe truncates long descriptions -->
+              @if (task.description) {
+                <div class="task-desc">
+                  {{ task.description | nzEllipsis:60:'...' }}
+                </div>
+              }
+            </td>
+            <td>
+              <nz-tag [nzColor]="statusColor(task.status)">
+                {{ task.status }}
+              </nz-tag>
+            </td>
+            <td>
+              <nz-tag [nzColor]="priorityColor(task.priority)">
+                {{ task.priority }}
+              </nz-tag>
+            </td>
+            <td>{{ task.category }}</td>
+            <td>{{ task.dueDate || '—' }}</td>
+            <td>
+              <!-- NEW: Mark Done quick action -->
+              @if (task.status !== 'done') {
+                <a (click)="onMarkDone(task)">Done</a>
+                <nz-divider nzType="vertical"></nz-divider>
+              }
+              <a (click)="onEdit(task)">Edit</a>
+              <nz-divider nzType="vertical"></nz-divider>
+              <a class="danger"
+                 nz-popconfirm
+                 nzPopconfirmTitle="Delete this task?"
+                 nzPopconfirmPlacement="left"
+                 nzOkText="Delete"
+                 nzOkDanger
+                 (nzOnConfirm)="onDelete(task)">
+                Delete
+              </a>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </nz-table>
+  }
+
+</nz-spin>
+
+
+<!-- 
   <nz-table #table [nzData]="filteredTasks()" [nzPageSize]="10" nzShowSizeChanger>
     <thead>
       <tr>
@@ -108,5 +176,5 @@
         </tr>
       }
     </tbody>
-  </nz-table>
+  </nz-table> -->
 }

@@ -35,7 +35,22 @@
       <span nz-icon class="trigger" [nzType]="collapsed() ? 'menu-unfold' : 'menu-fold'"
             (click)="toggleCollapse()"></span>
       <div class="header-right">
-        <nz-avatar nzText="J" [nzSize]="36" style="background: #1890ff"></nz-avatar>
+        @if (avatarUrl()) {
+          <nz-avatar
+            [nzSrc]="avatarUrl()"
+            [nzSize]="36">
+          </nz-avatar>
+        } @else {
+          <nz-avatar
+            [nzText]="avatarInitial()"
+            [nzSize]="36"
+            style="background: var(--primary-color); cursor: pointer"
+            routerLink="/settings">
+          </nz-avatar>
+        }
+        @if (!collapsed()) {
+          <span class="header-name">{{ displayName() }}</span>
+        }
       </div>
     </nz-header>
 
