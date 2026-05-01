@@ -1,59 +1,50 @@
-# Devtrack
+# DevTrack
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+A personal developer productivity dashboard built with **Angular 21** and **NG-ZORRO**.
+All data is stored in `localStorage` — no backend needed.
 
-## Development server
+---
 
-To start a local development server, run:
+## Features
 
-```bash
-ng serve
-```
+- **Tasks** — add, edit, delete, and filter tasks by status, priority, and category
+- **Goals** — track goals with progress sliders, star ratings, and deadlines
+- **Daily Log** — calendar-based diary with tag autocomplete and mood tracking
+- **Dashboard** — cross-feature KPIs, recent tasks, and top goals at a glance
+- **Settings** — display name, avatar, theme switching (light / dark / compact),
+  sidebar defaults, and full data export / reset
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Tech Stack
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+| Layer | Choice |
+|---|---|
+| Framework | Angular 21 (standalone components, signals) |
+| UI Library | NG-ZORRO 21.x (Ant Design of Angular) |
+| State | Angular Signals (`signal`, `computed`, `effect`) |
+| Forms | Reactive Forms |
+| Persistence | `localStorage` (no backend) |
+| Styling | CSS custom properties (variables) |
+| Build | Angular CLI + Vite |
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+## Getting started
 
 ```bash
-ng test
+# Install dependencies
+npm install
+
+# Start development server
+ng serve --open
+
+# Production build
+ng build --configuration production
 ```
 
-## Running end-to-end tests
+The app opens at `http://localhost:4200`.
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Project structure

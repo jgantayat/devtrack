@@ -6,7 +6,9 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzIconModule } from 'ng-zorro-antd/icon';
 import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
-
+import { NzSpinModule }       from 'ng-zorro-antd/spin';          
+import { NzPipesModule }      from 'ng-zorro-antd/pipes';         
+import { NzNotificationService } from 'ng-zorro-antd/notification'; 
 import { TaskService } from '../../../core/services/task.service';
 import { Task, TaskPriority, TaskStatus } from '../../../core/models/task.model';
 import { NzModalModule, NzModalService } from 'ng-zorro-antd/modal';
@@ -37,7 +39,9 @@ import { NzSelectModule } from 'ng-zorro-antd/select';
     NzCardModule,
     NzOptionComponent,
     NzFormModule,
-    NzSelectModule
+    NzSelectModule,
+    NzSpinModule,
+    NzPipesModule
   ],
   templateUrl: './tasks-page.html',
   styleUrl: './tasks-page.css',
@@ -46,6 +50,8 @@ export class TasksPage {
   private taskService = inject(TaskService);
   private modal = inject(NzModalService);
   private message = inject(NzMessageService);
+  private notification   = inject(NzNotificationService); 
+  loading = signal(true);
   searchQuery = signal('');
   statusFilter = signal<TaskStatus[]>([]);
   priorityFilter = signal<TaskPriority[]>([]);
@@ -57,6 +63,7 @@ export class TasksPage {
   const priorities = this.priorityFilter();
   const categories = this.categoryFilter();
 
+  
   return this.taskService.tasks().filter(t => {
     if (q && !t.title.toLowerCase().includes(q) &&
               !t.description?.toLowerCase().includes(q)) return false;
@@ -72,14 +79,15 @@ allCategories = computed(() =>
 );
   
   constructor() {
-  if (this.taskService.tasks().length === 0) {
-    this.taskService.add({ title: 'Read NG-ZORRO docs', description: 'Cover all Day 1 components',
-      status: 'done', priority: 'medium', category: 'Learning' });
-    this.taskService.add({ title: 'Build DevTrack layout',
-      status: 'in-progress', priority: 'high', category: 'Project' });
-    this.taskService.add({ title: 'Set up Spring Boot backend',
-      status: 'todo', priority: 'low', category: 'Backend', dueDate: '2026-05-15' });
-  }
+  // if (this.taskService.tasks().length === 0) {
+  //   this.taskService.add({ title: 'Read NG-ZORRO docs', description: 'Cover all Day 1 components',
+  //     status: 'done', priority: 'medium', category: 'Learning' });
+  //   this.taskService.add({ title: 'Build DevTrack layout',
+  //     status: 'in-progress', priority: 'high', category: 'Project' });
+  //   this.taskService.add({ title: 'Set up Spring Boot backend',
+  //     status: 'todo', priority: 'low', category: 'Backend', dueDate: '2026-05-15' });
+  // }
+    setTimeout(() => this.loading.set(false), 600);
 }
 
   sortByTitle = (a: Task, b: Task) => a.title.localeCompare(b.title);
@@ -139,5 +147,15 @@ clearFilters() {
   this.categoryFilter.set([]);
 }
 
+onMarkDone(task: Task) {
+    this.taskService.update(task.id, { status: 'done' });
+    this.notification.create(
+      'success',
+      'Task completed!',
+      `"${task.title}" was marked as done.`,
+      { nzDuration: 4000 }
+    );
+  }
+  titleSortFn = (a: Task, b: Task) => a.title.localeCompare(b.title);
 
 }

@@ -1,0 +1,9 @@
+label        { display: block; margin-bottom: 8px; font-weight: 500; }
+
+.mt          { margin-top: 16px; }
+
+
+.tag-list    { min-height: 32px; margin-top: 8px; }
+
+
+.actions     { margin-top: 24px; display: flex; gap: 8px; justify-content: flex-end; }

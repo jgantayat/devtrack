@@ -1,0 +1,29 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+/* Give each tab's form a little breathing room at the bottom */
+form[nz-form] {
+  margin-bottom: 16px;
+}
+
+.data-actions {
+  max-width: 600px;
+}
+
+.data-action-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 8px 0;
+}
+
+.action-desc {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.45);
+  margin: 4px 0 0 0;
+}

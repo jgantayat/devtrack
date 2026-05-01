@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
@@ -16,6 +16,8 @@ import { GoalService } from '../../../core/services/goal.service';
 import { Goal } from '../../../core/models/goal.model';
 import { GoalForm } from '../goal-form-modal/goal-form/goal-form';
 import { NzBadgeModule } from 'ng-zorro-antd/badge';
+import { NzSkeletonModule }   from 'ng-zorro-antd/skeleton';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 @Component({
   selector: 'app-goals-page',
@@ -32,7 +34,8 @@ import { NzBadgeModule } from 'ng-zorro-antd/badge';
     NzPopconfirmModule,
     NzModalModule,
     NzGridModule,
-     NzBadgeModule 
+    NzBadgeModule,
+    NzSkeletonModule, 
   ],
   templateUrl: './goals-page.html',
   styleUrl: './goals-page.css',
@@ -41,13 +44,18 @@ export class GoalsPage {
   private goalService = inject(GoalService);
   private modal = inject(NzModalService);
   private message = inject(NzMessageService);
+  private notification = inject(NzNotificationService);
 
+  loading = signal(true);
   goals = this.goalService.goals;
   activeCount = this.goalService.activeCount;
   completedCount = this.goalService.completedCount;
   avgProgress = this.goalService.avgProgress;
   avgRating = this.goalService.avgRating;
 
+  constructor() {
+     setTimeout(() => this.loading.set(false), 600);
+  }
   onAdd() {
     const ref = this.modal.create<GoalForm>({
       nzTitle: 'New Goal',
@@ -84,5 +92,15 @@ export class GoalsPage {
   onDelete(goal: Goal) {
     this.goalService.delete(goal.id);
     this.message.success(`"${goal.title}" deleted`);
+  }
+
+  onMarkComplete(goal: Goal) {
+    this.goalService.update(goal.id, { completed: true, progress: 100 });
+    this.notification.create(
+      'success',
+      'Goal achieved! 🎉',
+      `"${goal.title}" has been marked complete.`,
+      { nzDuration: 5000 }
+    );
   }
 }

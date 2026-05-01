@@ -1,1 +1,146 @@
-<p>settings-page works!</p>
+<div class="page-header">
+  <h2>Settings</h2>
+</div>
+
+<nz-card>
+  <nz-tabs nzType="line">
+
+    <!-- ── Profile tab ─────────────────────────────────────── -->
+    <nz-tab nzTitle="Profile">
+      <form nz-form nzLayout="vertical" [formGroup]="profileForm">
+
+        <nz-form-item>
+          <nz-form-label>Display Name</nz-form-label>
+          <nz-form-control>
+            <input nz-input formControlName="displayName" />
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>Avatar (preview only — not uploaded)</nz-form-label>
+          <nz-form-control>
+            <nz-upload
+              [nzBeforeUpload]="onAvatarSelect"
+              nzListType="picture-card"
+              [nzShowUploadList]="false">
+              @if (avatarUrl()) {
+                <img
+                  [src]="avatarUrl()"
+                  style="width: 100%; height: 100%; object-fit: cover;" />
+              } @else {
+                <div>
+                  <span nz-icon nzType="plus"></span>
+                  <div style="margin-top: 8px;">Upload</div>
+                </div>
+              }
+            </nz-upload>
+          </nz-form-control>
+        </nz-form-item>
+
+      </form>
+
+      <button nz-button nzType="primary" (click)="saveProfile()">
+        Save Profile
+      </button>
+    </nz-tab>
+
+    <!-- ── Appearance tab ──────────────────────────────────── -->
+    <nz-tab nzTitle="Appearance">
+      <form nz-form nzLayout="vertical" [formGroup]="appearanceForm">
+
+        <nz-form-item>
+          <nz-form-label>Theme</nz-form-label>
+          <nz-form-control>
+            <nz-radio-group formControlName="theme" nzButtonStyle="solid">
+              <label nz-radio-button nzValue="light">
+                <span nz-icon nzType="sun"></span> Light
+              </label>
+              <label nz-radio-button nzValue="dark">
+                <span nz-icon nzType="moon"></span> Dark
+              </label>
+              <label nz-radio-button nzValue="compact">Compact</label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>Sidebar collapsed by default</nz-form-label>
+          <nz-form-control>
+            <nz-switch formControlName="sidebarCollapsed"></nz-switch>
+          </nz-form-control>
+        </nz-form-item>
+
+      </form>
+
+      <button nz-button nzType="primary" (click)="saveAppearance()">
+        Save Appearance
+      </button>
+    </nz-tab>
+
+    <!-- ── Defaults tab ────────────────────────────────────── -->
+    <nz-tab nzTitle="Defaults">
+      <form nz-form nzLayout="vertical" [formGroup]="defaultsForm">
+
+        <nz-form-item>
+          <nz-form-label>Default task priority</nz-form-label>
+          <nz-form-control>
+            <nz-segmented
+              formControlName="defaultPriority"
+              [nzOptions]="['low', 'medium', 'high']">
+            </nz-segmented>
+          </nz-form-control>
+        </nz-form-item>
+
+        <nz-form-item>
+          <nz-form-label>Show notifications</nz-form-label>
+          <nz-form-control>
+            <nz-switch formControlName="notificationsEnabled"></nz-switch>
+          </nz-form-control>
+        </nz-form-item>
+
+      </form>
+
+      <button nz-button nzType="primary" (click)="saveDefaults()">
+        Save Defaults
+      </button>
+    </nz-tab>
+
+    <!-- ── Data tab ────────────────────────────────────────── -->
+    <nz-tab nzTitle="Data">
+      <div class="data-actions">
+
+        <div class="data-action-row">
+          <div>
+            <strong>Export data</strong>
+            <p class="action-desc">Download all tasks, goals, and log entries as a JSON file.</p>
+          </div>
+          <button nz-button (click)="exportData()">
+            <span nz-icon nzType="download"></span> Export JSON
+          </button>
+        </div>
+
+        <nz-divider></nz-divider>
+
+        <div class="data-action-row">
+          <div>
+            <strong>Reset everything</strong>
+            <p class="action-desc">Permanently deletes all your data. This cannot be undone.</p>
+          </div>
+          <button
+            nz-button
+            nzDanger
+            nz-popconfirm
+            nzPopconfirmTitle="Delete ALL data permanently? This cannot be undone."
+            nzPopconfirmPlacement="left"
+            nzOkText="Yes, delete everything"
+            nzOkDanger
+            (nzOnConfirm)="resetAll()">
+            <span nz-icon nzType="delete"></span> Reset everything
+          </button>
+        </div>
+
+      </div>
+    </nz-tab>
+
+  </nz-tabs>
+</nz-card>

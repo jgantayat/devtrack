@@ -1,0 +1,35 @@
+<h3>{{ data.date }}</h3>
+
+    <label>Mood</label>
+    <nz-rate [(ngModel)]="mood" [nzCharacter]="heartTpl"></nz-rate>
+    <ng-template #heartTpl>❤</ng-template>
+
+    <label class="mt">Content</label>
+    <textarea nz-input [(ngModel)]="content"
+              [nzAutosize]="{ minRows: 8, maxRows: 20 }"
+              placeholder="What happened today? Use markdown freely.">
+    </textarea>
+
+    <label class="mt">Tags</label>
+    <input nz-input
+           [(ngModel)]="tagInput"
+           [nzAutocomplete]="tagAuto"
+           (keydown.enter)="addTag()"
+           placeholder="Type a tag and press Enter" />
+
+    <nz-autocomplete #tagAuto>
+      @for (option of filteredTags(); track option) {
+        <nz-auto-option [nzValue]="option">{{ option }}</nz-auto-option>
+      }
+    </nz-autocomplete>
+
+    <div class="mt tag-list">
+      @for (tag of tags; track tag) {
+        <nz-tag nzMode="closeable" (nzOnClose)="removeTag(tag)">{{ tag }}</nz-tag>
+      }
+    </div>
+
+    <div class="actions">
+      <button nz-button (click)="cancel()">Cancel</button>
+      <button nz-button nzType="primary" (click)="save()">Save</button>
+    </div>
